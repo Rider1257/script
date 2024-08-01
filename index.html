@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('background.gif'); /* Replace with the path to your GIF */
+            background-size: cover;
+            background-position: center;
+        }
+        .login-container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        input[type="password"] {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .login-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            width: 100px;
+            height: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: top 0.2s, left 0.2s;
+        }
+        .login-btn:hover {
+            background-color: #0056b3;
+        }
+        .running-gif {
+            display: block;
+            width: 30px;
+            height: 15px;
+            background: url('running.gif') no-repeat center; /* Replace with your GIF path */
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="profile.png" alt="Profile Image" class="profile-img">
+        <h2>Login Page</h2>
+        <input type="password" id="password" placeholder="Enter Password" oninput="checkPassword()">
+        <br>
+        <button class="login-btn" id="loginBtn" onmouseover="moveButton()">Login</button>
+    </div>
+
+    <script>
+        function getPassword() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            return `scriptrebel${hours}${minutes}`;
+        }
+
+        function moveButton() {
+            const inputPassword = document.getElementById('password').value;
+            const correctPassword = getPassword();
+            const btn = document.getElementById('loginBtn');
+
+            if (inputPassword !== correctPassword) {
+                // Move button to random position within the container
+                const container = btn.parentElement;
+                const containerRect = container.getBoundingClientRect();
+                const btnRect = btn.getBoundingClientRect();
+
+                const maxX = containerRect.width - btnRect.width;
+                const maxY = containerRect.height - btnRect.height;
+
+                const randomX = Math.random() * maxX;
+                const randomY = Math.random() * maxY;
+
+                btn.style.left = `${randomX}px`;
+                btn.style.top = `${randomY}px`;
+
+                // Change button appearance to GIF
+                btn.innerHTML = '';
+                btn.classList.add('running-gif');
+            }
+        }
+
+        function checkPassword() {
+            const inputPassword = document.getElementById('password').value;
+            const correctPassword = getPassword();
+            const btn = document.getElementById('loginBtn');
+
+            if (inputPassword === correctPassword) {
+                // Stop moving and reset button
+                btn.style.top = '100px';
+                btn.style.left = 'calc(50% - 50px)'; // Center the button
+                btn.classList.remove('running-gif');
+                btn.innerHTML = 'Login';
+            }
+        }
+    </script>
+</body>
+</html>
